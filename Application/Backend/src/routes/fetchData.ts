@@ -91,7 +91,7 @@ fetchData.get('/fetchData', async (req: Request, res: Response) => {
         const json = await queryData();
         res.send(json);
         client.close();
-        console.log(`[server]: route /fetchData`);
+        console.log(`[server]: Server on route /fetchData`);
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).send('Internal Server Error');
