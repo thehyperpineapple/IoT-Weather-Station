@@ -11,7 +11,13 @@ let database = process.env.DATABASE;
 const client = new InfluxDBClient({ host: 'https://us-east-1-1.aws.cloud2.influxdata.com', token: token });
 
 async function queryData() {
-    const query = `SELECT * FROM "measurements" WHERE time >= now() - interval '30 days' AND ("temperature" IS NOT NULL OR "pressure" IS NOT NULL) LIMIT 100`;
+    const query = `SELECT *
+    FROM "bmp280 and dht22"
+    WHERE
+    time >= now() - interval '7 days'
+    AND
+    ("altitude" IS NOT NULL OR "humidity" IS NOT NULL OR "pressure" IS NOT NULL OR "temperature" IS NOT NULL)
+    `;
     const rows = await client.query(query, database);
 
     // Process the rows as a stream
@@ -28,11 +34,11 @@ async function queryData() {
     return json;
 }
 
-fetchData.get('/fetchData', async (req: Request, res: Response) => {
+fetchData.get(`/fetchData`, async (req: Request, res: Response) => {
     try {
         const json = await queryData();
         res.send(json);
-        client.close();
+        // client.close();
         console.log(`[server]: Server on route /fetchData`);
     } catch (error) {
         console.error('Error fetching data:', error);
