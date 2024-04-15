@@ -14,7 +14,7 @@ async function queryData() {
     const query = `SELECT *
     FROM "bmp280 and dht22"
     WHERE
-    time >= now() - interval '7 days'
+    time >= now() - interval '30 days'
     AND
     ("altitude" IS NOT NULL OR "humidity" IS NOT NULL OR "pressure" IS NOT NULL OR "temperature" IS NOT NULL)
     `;
